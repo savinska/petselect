@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mypet2get?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: 1234
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  server:
+    port: 8080
+logging:
+  level:
+    org.hibernate.SQLQuery: TRACE
+    org.hibernate.type.descriptor: TRACE
+cloudinary:
+  cloud_name: "dfwy21fku"
+  api_key: "196611689663987"
+  api_secret: ${CLOUDINARY_SECRET}

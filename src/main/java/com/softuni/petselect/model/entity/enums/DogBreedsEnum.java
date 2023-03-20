@@ -1,0 +1,40 @@
+package com.softuni.petselect.model.entity.enums;
+
+public enum DogBreedsEnum {
+
+    MIXED_BREED,
+    AKITA,
+    AMERICAN_PITBULL,
+    AMERICAN_STAFFORDSHIRE,
+    BEAGLE,
+    BOLONEZE,
+    BULLDOG,
+    BULTERRIER,
+    BULGARIAN_SHEPERD_DOG,
+    CHIHUAHUA,
+    COCKER_SPANIOL,
+    COLY,
+    DALMATIAN,
+    DOBERMAN,
+    DOGO_ARGENTINO,
+    FRENCH_BULDOG,
+    GERMAN_SHEPARD,
+    GOLDEN_RETRIEVER,
+    GONCHE,
+    HOUND,
+    HUSKY,
+    LABRADOR,
+    MALAMUT,
+    PEKENEZ,
+    PINCHER,
+    PITBULL,
+    POINTER,
+    POMERANIAN,
+    PUG,
+    ROTWEILER,
+    SETTER,
+    TERRIER,
+    VISLA,
+    OTHER
+
+}
