@@ -1,15 +1,12 @@
 package com.softuni.petselect.model.dto.service;
 
 import com.softuni.petselect.model.entity.OrganizationEntity;
-import com.softuni.petselect.model.entity.PetTypeEntity;
-import com.softuni.petselect.model.entity.PictureEntity;
 import com.softuni.petselect.model.entity.UserEntity;
 import com.softuni.petselect.model.entity.enums.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 public class PetServiceModel {
@@ -38,7 +35,7 @@ public class PetServiceModel {
 
     private Boolean isToiletTrained;
 
-    private Boolean isSpayed;
+    private Boolean isSpayedNeutered;
 
     private Boolean isVaccinated;
 
@@ -179,11 +176,11 @@ public class PetServiceModel {
     }
 
     public Boolean getSpayed() {
-        return isSpayed;
+        return isSpayedNeutered;
     }
 
     public void setSpayed(Boolean spayed) {
-        isSpayed = spayed;
+        isSpayedNeutered = spayed;
     }
 
     public Boolean getVaccinated() {

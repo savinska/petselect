@@ -8,8 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 public class PetAddBindingModel {
     @NotNull(message = "Please select pet type!")
@@ -45,7 +43,7 @@ public class PetAddBindingModel {
 
     private Boolean isToiletTrained;
 
-    private Boolean isSpayed;
+    private Boolean isSpayedNeutered;
 
     private Boolean isVaccinated;
 
@@ -172,12 +170,12 @@ public class PetAddBindingModel {
         isToiletTrained = toiletTrained;
     }
 
-    public Boolean getSpayed() {
-        return isSpayed;
+    public Boolean getSpayedNeutered() {
+        return isSpayedNeutered;
     }
 
-    public void setSpayed(Boolean spayed) {
-        isSpayed = spayed;
+    public void setSpayedNeutered(Boolean spayedNeutered) {
+        isSpayedNeutered = spayedNeutered;
     }
 
     public Boolean getVaccinated() {

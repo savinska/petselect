@@ -8,71 +8,110 @@
 <body>
 <header th:replace="~{fragments/commons::nav}">
 </header>
-    <section class="vh-100" style="background-image: url('./static/images/636095-cute-dogs-wallpapers-2560x1600-for-full-hd.jpg'); background-size: cover; background-position: top center; min-height: 700px;">
+<main class="pets-details">
+    <section class="vh-100" style="background-image: url('/images/636095-cute-dogs-wallpapers-2560x1600-for-full-hd.jpg'); background-size: cover; background-position: top center; min-height: 700px;">
         <div class="container py-5 h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-lg-10 mb-8 mb-lg-4">
-              <div class="card mb-3" style="border-radius: .5rem;">
-                <div class="row g-0">
-                  <div class="col-md-5 gradient-custom text-center text-white"
-                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                    <ul id="lightSlider">
-                        <li>
-                            <h3>First Slide</h3>
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                        </li>
-                        <li>
-                            <h3>Second Slide</h3>
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                        </li>
-                        <li>
-                            <h3>Second Slide</h3>
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                        </li>
-                    </ul>
-                  </div>
-                  <div class="col-md-7">
-                    <div class="card-body p-4">
-                      <h6>Information</h6>
-                      <hr class="mt-0 mb-4">
-                      <div class="row pt-1">
-                        <div class="col-6 mb-3">
-                          <h6>First Name</h6>
-                          <p class="text-muted">Savina</p>
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-10 mb-4 mb-lg-0">
+                    <div th:object="${pet}" class="card mb-3" style="border-radius: .5rem;">
+                        <div class="row g-0">
+                            <div class="col-md-4 gradient-custom text-center text-white"
+                                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                <img th:src="*{pictureUrls.stream().findFirst()}"
+                                     alt="Avatar" class="img-fluid my-5" style="width: 150px;" />
+                                <h5 th:text="*{name}"></h5>
+                                <p th:text="*{gender}"></p>
+                                <p th:text="|*{ageYears}.*{ageMonths} yrs|"></p>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body p-4">
+                                    <h6>Information</h6>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-6 mb-3">
+                                            <h6>Breed</h6>
+                                            <p th:text="*{breed}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Fur coat</h6>
+                                            <p th:text="*{furCoat}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Temper</h6>
+                                            <p th:text="*{temper}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Location</h6>
+                                            <p th:text="*{location}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Responsible Organization</h6>
+                                            <p th:text="*{responsibleOrganization}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Size-kg</h6>
+                                            <p th:text="*{sizeInKg}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>Been in shelter since</h6>
+                                            <p th:text="*{beenInShelterSince}" class="text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <ul>
+                                                <li th:if="*{toiletTrained == true}">
+                                                    <p  class="text-muted">Toilet trained</p>
+                                                </li>
+                                                <li th:if="*{spayedNeutered == true}">
+                                                    <p  class="text-muted">Spayed/Neutered</p>
+                                                </li>
+                                                <li th:if="*{vaccinated == true}">
+                                                    <p  class="text-muted">Vaccinated</p>
+                                                </li>
+                                                <li th:if="*{chipped == true}">
+                                                    <p  class="text-muted">Chipped</p>
+                                                </li>
+                                                <li th:if="*{specialNeeds == true}">
+                                                    <p  class="text-muted">Has special needs</p>
+                                                </li>
+                                                <li th:if="*{inDanger == true}">
+                                                    <p  class="text-muted">IN DANGER!</p>
+                                                </li>
+                                                <li th:if="*{getAlongWithCats == true}">
+                                                    <p  class="text-muted">Gets along with cats</p>
+                                                </li>
+                                                <li th:if="*{getAlongWithDogs == true}">
+                                                    <p  class="text-muted">Gets along with dogs</p>
+                                                </li>
+                                                <li th:if="*{getAlongWithKids == true}">
+                                                    <p  class="text-muted">Gets along with kids</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <section class="pet-description text-center">
+                                                <h6>Description</h6>
+                                                <p id="pet-description" th:text="*{description}" class="text-muted"></p>
+                                        </section>
+                                        <section class="gallery">
+                                            <img class="rounded" th:each="p : *{pictureUrls}" th:src="${p}" height="100%">
+                                        </section>
+                                    </div>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-4 mb-4">
+                                            <button  type="button" class="btn btn-outline-secondary">Message caregiver</button>
+                                        </div>
+                                        <div class="col-4 mb-3">
+                                            <button type="button" class="btn btn-outline-secondary">Add to Favourites</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-6 mb-3">
-                          <h6>Last Name</h6>
-                          <p class="text-muted">Pisarska</p>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <h6>Email</h6>
-                            <p class="text-muted">info@example.com</p>
-                          </div>
-                          <div class="col-6 mb-3">
-                            <h6>Phone</h6>
-                            <p class="text-muted">123 456 789</p>
-                          </div>
-                      </div>
-                      <hr class="mt-0 mb-4">
-                      <div class="row pt-1">
-                        <div class="col-4 mb-4">
-                          <button type="button" class="btn btn-outline-secondary">Message owner</button>
-                        </div>
-                        <div class="col-4 mb-3">
-                            <button type="button" class="btn btn-outline-secondary">Add to Favourites</button>
-                          </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </section>
+    </section>
 </main>
 <footer th:replace="~{fragments/commons::footer}">
 </footer>

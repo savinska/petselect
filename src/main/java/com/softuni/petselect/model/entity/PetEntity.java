@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -38,7 +37,7 @@ public class PetEntity extends BaseEntity {
     @Column
     private Boolean isToiletTrained;
     @Column
-    private Boolean isSpayed;
+    private Boolean isSpayedNeutered;
     @Column
     private Boolean isVaccinated;
     @Column
@@ -174,11 +173,11 @@ public class PetEntity extends BaseEntity {
     }
 
     public Boolean getSpayed() {
-        return isSpayed;
+        return isSpayedNeutered;
     }
 
     public void setSpayed(Boolean spayed) {
-        isSpayed = spayed;
+        isSpayedNeutered = spayed;
     }
 
     public Boolean getVaccinated() {

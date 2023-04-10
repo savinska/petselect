@@ -12,6 +12,7 @@ import com.softuni.petselect.service.PetService;
 import com.softuni.petselect.service.PetTypeService;
 import com.softuni.petselect.service.UserService;
 import jakarta.validation.Valid;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -117,12 +118,10 @@ public class PetController {
         return "redirect:/";
     }
 
-    @GetMapping("/{id}")
-    public String petsDetails(@PathVariable("id") Long id, Model model){
+    @GetMapping("/details/{id}")
+    public String petsDetails(@PathVariable("id") Long id, @NotNull Model model){
 
-        PetDetailsViewModel petDetailsViewModel = petService.getPetById(id);
-
-        model.addAttribute("pet", petDetailsViewModel);
+        model.addAttribute("pet", petService.getPetById(id));
 
         return "pets-details";
     }

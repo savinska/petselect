@@ -200,12 +200,12 @@ public class PetDetailsViewModel {
         isToiletTrained = toiletTrained;
     }
 
-    public Boolean getSpayed() {
+    public Boolean getSpayedNeutered() {
         return isSpayed;
     }
 
-    public void setSpayed(Boolean spayed) {
-        isSpayed = spayed;
+    public void setSpayedNeutered(Boolean spayedNeutered) {
+        isSpayed = spayedNeutered;
     }
 
     public Boolean getVaccinated() {
