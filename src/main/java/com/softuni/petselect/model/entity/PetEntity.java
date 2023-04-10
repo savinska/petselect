@@ -3,6 +3,7 @@ package com.softuni.petselect.model.entity;
 import com.softuni.petselect.model.entity.enums.*;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -14,10 +15,8 @@ public class PetEntity extends BaseEntity {
     private PetTypeEntity petType;
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
-    @Enumerated(EnumType.STRING)
-    private DogBreedsEnum dogBreed;
-    @Enumerated(EnumType.STRING)
-    private CatBreedsEnum catBreed;
+   @Column
+    private String breed;
     @Enumerated(EnumType.STRING)
     private FurCoatEnum furCoat;
     @Enumerated(EnumType.STRING)
@@ -45,7 +44,7 @@ public class PetEntity extends BaseEntity {
     @Column
     private Boolean isChipped;
     @Column
-    private Boolean hasSpecialNeeds;
+    private Boolean isSpecialNeeds;
     @Column
     private Boolean isInDanger;
     @Column
@@ -56,14 +55,16 @@ public class PetEntity extends BaseEntity {
     private Boolean isGetAlongWithKids;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
-    @OneToMany(mappedBy = "pet")
-    private Set<PictureEntity> pictures;
+
     @Column(nullable = false)
-    private LocalDateTime registeredOn;
+    private Instant registeredOn;
     @ManyToOne
     private UserEntity author;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<UserEntity> addedToFavouritesBy;
+
+    @OneToMany(mappedBy = "pet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PictureEntity> pictures;
 
     public PetEntity() {
     }
@@ -84,20 +85,12 @@ public class PetEntity extends BaseEntity {
         this.gender = gender;
     }
 
-    public DogBreedsEnum getDogBreed() {
-        return dogBreed;
+    public String getBreed() {
+        return breed;
     }
 
-    public void setDogBreed(DogBreedsEnum dogBreed) {
-        this.dogBreed = dogBreed;
-    }
-
-    public CatBreedsEnum getCatBreed() {
-        return catBreed;
-    }
-
-    public void setCatBreed(CatBreedsEnum catBreed) {
-        this.catBreed = catBreed;
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
     public FurCoatEnum getFurCoat() {
@@ -204,12 +197,12 @@ public class PetEntity extends BaseEntity {
         isChipped = chipped;
     }
 
-    public Boolean getHasSpecialNeeds() {
-        return hasSpecialNeeds;
+    public Boolean getSpecialNeeds() {
+        return isSpecialNeeds;
     }
 
-    public void setHasSpecialNeeds(Boolean hasSpecialNeeds) {
-        this.hasSpecialNeeds = hasSpecialNeeds;
+    public void setSpecialNeeds(Boolean specialNeeds) {
+        isSpecialNeeds = specialNeeds;
     }
 
     public Boolean getInDanger() {
@@ -252,19 +245,12 @@ public class PetEntity extends BaseEntity {
         this.description = description;
     }
 
-    public Set<PictureEntity> getPictures() {
-        return pictures;
-    }
 
-    public void setPictures(Set<PictureEntity> pictures) {
-        this.pictures = pictures;
-    }
-
-    public LocalDateTime getRegisteredOn() {
+    public Instant getRegisteredOn() {
         return registeredOn;
     }
 
-    public void setRegisteredOn(LocalDateTime registeredOn) {
+    public void setRegisteredOn(Instant registeredOn) {
         this.registeredOn = registeredOn;
     }
 
@@ -282,5 +268,13 @@ public class PetEntity extends BaseEntity {
 
     public void setAddedToFavouritesBy(Set<UserEntity> addedToFavouritesBy) {
         this.addedToFavouritesBy = addedToFavouritesBy;
+    }
+
+    public Set<PictureEntity> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(Set<PictureEntity> pictures) {
+        this.pictures = pictures;
     }
 }

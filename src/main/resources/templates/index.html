@@ -1,100 +1,57 @@
 <!DOCTYPE html>
 <html lang="en"
-xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <script src="https://kit.fontawesome.com/029f00fb28.js" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <link rel="stylesheet" th:href="@{../static/css/styles.css}">
-    <title>PetSelect</title>
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/commons::head}">
 </head>
 <body>
-    <header>
-        <section class="navigation">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid">
-                    <p class="site-title">
-                        <span class="icon-stack">
-                            <i class="fa-solid fa-paw icon-stack-2x"></i>
-                            <i class="fa-solid fa-arrow-pointer icon-stack-1x"></i>
-                        </span>
-                        PetSelect
-                        </p>
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a href="#">Home</a></li>
-                            <li class="nav-item"><a href="#">About us</a></li>
-                            <li class="nav-item"><a href="#">Pets</a></li>
-                            <li class="nav-item"><a href="#">Shelters</a></li>
-                            <li class="nav-item"><a href="#">Contact us</a></li>
-                            <li class="nav-item"><a href="#">Roles</a></li>
-                            <li class="nav-item"><a href="#">Register</a></li>
-                            <li class="nav-item"><a href="#">Login</a></li>
-                            <li class="nav-item"><a href="#">Logout</a></li>
-                            <li class="nav-item">
-                                <ul class="navbar-profile">
-                                    <li><b href="#"><i class="fa-solid fa-user"></i></b></li>
-                                    <li><b href="#"><i class="fa-solid fa-envelope"></i></b></li>
-                                    <li><b href="#"><i class="fa-solid fa-heart"></i></b></li>
-                                </ul>
-                            </li>
-                        </ul>
-                </div>
-            </nav>
-        </section>
-        <section class="site-header">
-            <h1>Adopt a pet from Bulgaria, 
-                save a life!</h1>
-            <button>Learn more</button>
-        </section>
+    <header th:replace="~{fragments/home-nav::nav}">
     </header>
     <main>
         <section class="welcome">
             <h2>Welcome to PetSelect!</h2>
-            <p>PetSelect is an online, searchable database of homeless dogs and cats, located in the streets or shelters in Bulgaria, who are in desperate need of homes. 
-                Nearly 100 animal shelters, public and private, and rescue organizations throughout the country post new pets for adoption every other day, 
-                so that pet lovers from any EU country, from the comfort of their personal computers, can search for a pet that best matches their desires and needs.   
-             </p>
-             <p>The site partners with rescue organizations all across Europe to help smooth the adoption process for all parties involved. It also includes a pet-care resource directory and a 
+            <p>PetSelect is an online, searchable database of homeless dogs and cats, located in the streets or shelters in Bulgaria, who are in desperate need of homes.
+                Nearly 100 animal shelters, public and private, and rescue organizations throughout the country post new pets for adoption every other day,
+                so that pet lovers from any EU country, from the comfort of their personal computers, can search for a pet that best matches their desires and needs.
+            </p>
+            <p>The site partners with rescue organizations all across Europe to help smooth the adoption process for all parties involved. It also includes a pet-care resource directory and a
                 library of free pet-care articles to help new pet owners meet their pets' needs and to prevent abandoning of pets.</p>
-            <p> Want to list a pet from Bulgaria for adoption? No problem, just sign up with PetSelect as an organization <span><a href="#">here!</a></span>  Yes, even if you are an individual!</p>
+            <p> Want to list a pet from Bulgaria for adoption? No problem, just sign up with PetSelect as an organization <span><a href="/users/signup">here!</a></span>  Yes, even if you are an individual!</p>
         </section>
         <section class="get-involved">
             <h2>Shelters are full - get involved!</h2>
             <p>
-                <ul>
-                    <li><a href="#">
-                        <img src="./images/noun-dog-1315214.png" alt="pic">
-                        <h3>Search dogs</h3>
-                        <p>Use the customisable search engine to search for dogs, available for addoption, that best match your criteria</p>
-                    </a></li>
-                    <li><a href="#">
-                        <img src="./images/noun-cat-1315214.png" alt="pic">
-                        <h3>Search cats</h3>
-                        <p>Use the customisable search engine to search for cats, available for addoption, that best match your criteria</p>
-                    </a></li>
-                    <li><a href="#">
-                        <img src=".images/noun-pet-file-5071773.png" alt="pic">
-                        <h3>List new pet</h3>
-                        <p>Sheltering or taking care of a stray cat or dog? Wait no more - list it here to start looking for a forever home today!</p>
-                    </a></li>
-                    <li><a href="#">
-                        <img src="./images/noun-animal-love-4536785.png" alt="pic">
-                        <h3>Donate</h3>
-                        <p>Select shelters or resque organizations and send funds to buy food or cover medical expenses for their rescued pets!</p>
-                    </a></li>
-                </ul>
+            <ul>
+                <li><a href="/pets/dogs">
+                    <img src="/images/noun-dog-1315214.png" alt="pic">
+                    <h3>Search dogs</h3>
+                    <p>Use the customisable search engine to search for dogs, available for adoption, that best match your criteria</p>
+                </a></li>
+                <li><a href="/pets/cats">
+                    <img src="/images/noun-cat-1315214.png" alt="pic">
+                    <h3>Search cats</h3>
+                    <p>Use the customisable search engine to search for cats, available for adoption, that best match your criteria</p>
+                </a></li>
+                <li><a href="/pets/add">
+                    <img src="/images/noun-pet-file-5071773.png" alt="pic">
+                    <h3>List new pet</h3>
+                    <p>Sheltering or taking care of a stray cat or dog? Wait no more - list it here to start looking for a forever home today!</p>
+                </a></li>
+                <li><a href="/shelters/all">
+                    <img src="/images/noun-animal-love-4536785.png" alt="pic">
+                    <h3>Donate</h3>
+                    <p>Select shelters or resque organizations and send funds to buy food or cover medical expenses for their rescued pets!</p>
+                </a></li>
+            </ul>
             </p>
         </section>
-        <section class="availabe-pets">
+        <section class="available-pets">
             <h2>Don't buy while stray pets die!</h2>
             <p>You can't buy true love and friendship, but you can surely adopt it! Not sure what kind of pet you are searching for? Browse through all listed pets <span><a href="#">here!</a></span></p>
             <ul>
                 <li>
-                    <img src="./images/noun-dog-1315214.png" alt="pic">
+                    <img src="/images/noun-dog-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Dog name</h3>
@@ -105,11 +62,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Dog short description Dog short description Dog short description Dog short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-dog-1315214.png" alt="pic">
+                    <img src="/images/noun-dog-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Dog name</h3>
@@ -120,11 +77,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Dog short description Dog short description Dog short description Dog short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-dog-1315214.png" alt="pic">
+                    <img src="/images/noun-dog-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Dog name</h3>
@@ -135,11 +92,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Dog short description Dog short description Dog short description Dog short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-dog-1315214.png" alt="pic">
+                    <img src="/images/noun-dog-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Dog name</h3>
@@ -150,11 +107,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Dog short description Dog short description Dog short description Dog short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-dog-1315214.png" alt="pic">
+                    <img src="/images/noun-dog-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Dog name</h3>
@@ -165,13 +122,13 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Dog short description Dog short description Dog short description Dog short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <img src="./images/noun-cat-1315214.png" alt="pic">
+                    <img src="/images/noun-cat-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Cat name</h3>
@@ -182,11 +139,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Cat short description Cat short description Cat short description Cat short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-cat-1315214.png" alt="pic">
+                    <img src="/images/noun-cat-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Cat name</h3>
@@ -197,11 +154,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Cat short description Cat short description Cat short description Cat short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-cat-1315214.png" alt="pic">
+                    <img src="/images/noun-cat-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Cat name</h3>
@@ -212,11 +169,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Cat short description Cat short description Cat short description Cat short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-cat-1315214.png" alt="pic">
+                    <img src="/images/noun-cat-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Cat name</h3>
@@ -227,11 +184,11 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Cat short description Cat short description Cat short description Cat short description</p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
                 <li>
-                    <img src="./images/noun-cat-1315214.png" alt="pic">
+                    <img src="/images/noun-cat-1315214.png" alt="pic">
                     <section class="info">
                         <div>
                             <h3>Cat name</h3>
@@ -242,21 +199,13 @@ xmlns="http://www.w3.org/1999/xhtml"
                     </section>
                     <section class="description">
                         <p>Cat short description Cat short description Cat short description Cat short description </p>
-                        <button>More details</button>
+                        <button>Details</button>
                     </section>
                 </li>
             </ul>
         </section>
     </main>
-    <footer>
-        <p>©2023 PetSelect.com All trademarks are owned by Savina Pisarska or used with permission.</p>
-        <div href="#">Contact us</div>
-        <ul> 
-            <li>Follow us on:</li>
-            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="#"><i class="fab fa-tiktok"></i></a></li>
-        </ul>
+    <footer th:replace="~{fragments/commons::footer}">
     </footer>
 </body>
 </html>

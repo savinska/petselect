@@ -1,9 +1,11 @@
 package com.softuni.petselect.model.entity;
 
 import com.softuni.petselect.model.entity.enums.CountryNameEnum;
-import com.softuni.petselect.model.entity.enums.UserTypeEnum;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +22,7 @@ public class UserEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private CountryNameEnum country;
     @ManyToMany(fetch = FetchType.EAGER)
-    Set<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -65,11 +67,23 @@ public class UserEntity extends BaseEntity{
         this.country = country;
     }
 
-    public Set<RoleEntity> getRoles() {
+    public List<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RoleEntity> roles) {
+    public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + (password != null ? "[PROVIDED]" : "[N/A]" ) + '\'' +
+                ", country=" + country +
+                ", roles=" + roles +
+                '}';
     }
 }

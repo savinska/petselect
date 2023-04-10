@@ -53,7 +53,8 @@ body{
     color: orangered;
   }
 
-  nav{
+  nav,
+  body > header > section.navigation > nav > div > ul > li:nth-child(5) > form > input{
     display: inline-block;
   }
  
@@ -61,7 +62,8 @@ body{
     margin-bottom: 0;
   }
 
-  li{
+  li,
+  body > header > section.navigation > nav > div > ul > li:nth-child(5) > form > input{
     display: inline-block;
   }
 
@@ -69,7 +71,8 @@ body{
     padding-right: 15px;
   }
 
-  a{
+  a,
+  body > header > section.navigation > nav > div > ul > li:nth-child(5) > form > input{
     text-decoration: none;
     color: black;
   }
@@ -78,8 +81,14 @@ body{
     color: orangered;
   }
 
+body > header > section.navigation > nav > div > ul > li:nth-child(5) > form > input:hover{
+  cursor: pointer;
+  color: orangered;
+}
+
   a:hover,
-  a:active{
+  a:active,
+  body > header > section.navigation > nav > div > ul > li:nth-child(5) > form > input{
     cursor: pointer;
     color: orangered;
   }
@@ -92,7 +101,7 @@ body{
 
   /*site-header*/
 .site-header{
-  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(./images/R.jpeg) no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(./static/images/R.jpeg) no-repeat;
   background-size: cover;
 }
 
@@ -210,16 +219,16 @@ body{
   font-size: 16px;
 }
 
-/*availabe-pets*/
-.availabe-pets{
+/*available-pets*/
+.available-pets{
   margin: 20px;
 }
-.availabe-pets ul{
+.available-pets ul{
   padding: 0;
   margin: 30px 0;
 }
 
-.availabe-pets h2{
+.available-pets h2{
   font-family: 'PT Serif', serif;
   text-align: center;
   color: orangered;
@@ -227,27 +236,27 @@ body{
   letter-spacing: 2px;
 }
 
-body > main > section.availabe-pets > p{
+body > main > section.available-pets > p{
   width: 60%;
   text-align: center;
   margin: 0 auto;
   padding-bottom: 0;
 }
-.availabe-pets p span a{
+.available-pets p span a{
   text-decoration: underline;
   color: orangered;
 }
-.availabe-pets p span a:hover{
+.available-pets p span a:hover{
   cursor: pointer;
   font-weight: bolder;
 }
 
-.availabe-pets img{
+.available-pets img{
   width: 200px;
   height: 200px;
 }
 
-.availabe-pets li{
+.available-pets li{
   width: 235px;
   border: 2px solid orangered;
   border-radius: 5%;
@@ -255,7 +264,7 @@ body > main > section.availabe-pets > p{
   padding: 15px;
 }
 
-.availabe-pets li:not(:last-child){
+.available-pets li:not(:last-child){
   margin: 15px 15px 5px 0;
 }
 
@@ -289,17 +298,19 @@ body > main > section.availabe-pets > p{
   margin: 0;
 }
 
-.description button{
+.description button,
+#description > button{
   margin: 0 41px;
   border: 2px solid orangered;
   
   color: white;
   background: transparent;
-  padding: 5px 10 px;
+  padding: 5px 10px;
   font-size: 18px;
 }
 
-.description button:hover{
+.description button,
+#description > button:hover{
   background-color: white;
   color: orangered;
   cursor: pointer;
@@ -743,6 +754,10 @@ footer ul li a:hover{
 }
 
 /*LOGIN PAGE*/
+
+.section-login{
+ margin-bottom: 0;
+}
 
 .card-login{
   width: 350px;

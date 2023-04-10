@@ -17,6 +17,7 @@ public class PictureEntity extends BaseEntity{
     private UserEntity author;
     @ManyToOne
     private PetEntity pet;
+    private String publicID;
 
     public PictureEntity() {
     }
@@ -51,5 +52,13 @@ public class PictureEntity extends BaseEntity{
 
     public void setPet(PetEntity pet) {
         this.pet = pet;
+    }
+
+    public String getPublicID() {
+        return publicID;
+    }
+
+    public void setPublicID(String publicID) {
+        this.publicID = publicID;
     }
 }

@@ -30,4 +30,10 @@ public class PetTypeServiceImpl implements PetTypeService {
             petTypeRepository.save(petType);
         });
     }
+
+    @Override
+    public PetTypeEntity findByPetTypeEnum(PetTypeEnum petType) {
+        return petTypeRepository.findByPetType(petType)
+                .orElse(null);
+    }
 }
