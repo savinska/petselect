@@ -8,18 +8,11 @@
   <title>PetSelect</title>
 </head>
 <body>
-
-Hello, <th:block th:text="${username}"></th:block>!
-
-<p>
-  Welcome to PetSelect!
-  To activate your account please go to the following page: .....
+<h1 th:text="#{registration_welcome}">Welcome to PetSelect!</h1>
+<th:block th:text="#{registration_dear_user(${userName})}">Dear User,</th:block>
+<p th:text="#{registration_happy}">
+  We are happy to have you as a member of our community, start saving lives today!
 </p>
-
-<p>
-  Best,
-  PetSelect Team!
-</p>
-
+<th:block th:text="#{registration_best_regards}">Best regards, the PetSelect Team!</th:block>
 </body>
 </html>

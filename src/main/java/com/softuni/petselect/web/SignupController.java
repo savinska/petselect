@@ -2,7 +2,6 @@ package com.softuni.petselect.web;
 
 import com.softuni.petselect.model.dto.binding.UserSignUpBindingModel;
 import com.softuni.petselect.model.dto.service.UserServiceModel;
-import com.softuni.petselect.service.EmailService;
 import com.softuni.petselect.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +14,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -25,12 +25,13 @@ public class SignupController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final SecurityContextRepository securityContextRepository;
+    private final LocaleResolver localeResolver;
 
-
-    public SignupController(UserService userService, ModelMapper modelMapper, SecurityContextRepository securityContextRepository) {
+    public SignupController(UserService userService, ModelMapper modelMapper, SecurityContextRepository securityContextRepository, LocaleResolver localeResolver) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.securityContextRepository = securityContextRepository;
+        this.localeResolver = localeResolver;
     }
 
     @ModelAttribute
@@ -70,6 +71,7 @@ public class SignupController {
 
             return "redirect:signup";
         }
+
         UserServiceModel userServiceModel = modelMapper.map(userSignUpBindingModel, UserServiceModel.class);
 
         userService.signUpUser(userServiceModel, successfulAuth -> {
@@ -82,7 +84,7 @@ public class SignupController {
             strategy.setContext(context);
 
             securityContextRepository.saveContext(context, request, response);
-        });
+        }, localeResolver.resolveLocale(request));
 
         return "redirect:/successful-signup";
     }

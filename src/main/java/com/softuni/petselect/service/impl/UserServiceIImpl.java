@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 @Service
@@ -47,7 +48,7 @@ public class UserServiceIImpl implements UserService {
 
 
     @Override
-    public UserEntity signUpUser(UserServiceModel userServiceModel, Consumer<Authentication> successfulLoginProcessor) {
+    public UserEntity signUpUser(UserServiceModel userServiceModel, Consumer<Authentication> successfulLoginProcessor, Locale preferredLocale) {
         UserEntity user = modelMapper.map(userServiceModel, UserEntity.class);
         user.setPassword(passwordEncoder.encode(userServiceModel.getPassword()));
         user.setRoles(new ArrayList<>());
@@ -65,7 +66,7 @@ public class UserServiceIImpl implements UserService {
         successfulLoginProcessor.accept(authentication);
 
         emailService.sendRegistrationEmail(user.getEmail(),
-                user.getFirstName() + " " + user.getLastName());
+               user.getFirstName(), preferredLocale);
         return user;
     }
 

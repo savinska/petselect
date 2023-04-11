@@ -4,6 +4,8 @@ import com.softuni.petselect.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,19 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
+    private final MessageSource messageSource;
 
-    public EmailServiceImpl(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+    public EmailServiceImpl(JavaMailSender javaMailSender, TemplateEngine templateEngine, MessageSource messageSource) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
+        this.messageSource = messageSource;
     }
 
     @Override
     public void sendRegistrationEmail(
             String userEmail,
-            String username
+            String userName,
+            Locale preferredLocale
     ) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -33,9 +38,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             mimeMessageHelper.setFrom("petselect23@gmail.com");
             mimeMessageHelper.setTo(userEmail);
-            //TODO: i18n
-            mimeMessageHelper.setSubject("Welcome to PetSelect!");
-            mimeMessageHelper.setText(generateEmailText(username), true);
+            mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
+            mimeMessageHelper.setText(generateMessageContent(preferredLocale, userName), true);
 
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
 
@@ -45,11 +49,18 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
-    private String generateEmailText(String username) {
-        Context ctx = new Context();
-        ctx.setLocale(Locale.getDefault());
-        ctx.setVariable("username", username);
+    private String getEmailSubject(Locale locale) {
+        return messageSource.getMessage(
+                "registration_subject",
+                new Object[0],
+                locale);
+    }
 
+    private String generateMessageContent(Locale locale,
+                                          String userName) {
+        Context ctx = new Context();
+        ctx.setLocale(locale);
+        ctx.setVariable("userName", userName);
         return templateEngine.process("email/registration", ctx);
     }
 
