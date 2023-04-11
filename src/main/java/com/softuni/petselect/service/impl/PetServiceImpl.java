@@ -1,5 +1,6 @@
 package com.softuni.petselect.service.impl;
 
+import com.softuni.petselect.exception.ObjectNotFoundException;
 import com.softuni.petselect.model.dto.service.PetServiceModel;
 import com.softuni.petselect.model.dto.view.PetDetailsViewModel;
 import com.softuni.petselect.model.dto.view.PetViewModel;
@@ -20,7 +21,7 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -87,15 +88,11 @@ public class PetServiceImpl implements PetService {
 
     }
 
-    // pet.setResponsibleOrganization(organizationService.getOrganizationByName(petServiceModel.getResponsibleOrganization()));
-    //TODO
-
 
     @Override
-    public PetDetailsViewModel getPetById(Long id) {
+    public Optional<PetDetailsViewModel> getPetById(Long id) {
         return petRepository
                 .findById(id)
-                .map(petEntity -> modelMapper.map(petEntity, PetDetailsViewModel.class))
-                .orElseThrow(() -> new RuntimeException("Pet not found!"));
+                .map(petEntity -> modelMapper.map(petEntity, PetDetailsViewModel.class));
     }
 }

@@ -1,5 +1,6 @@
 package com.softuni.petselect.web;
 
+import com.softuni.petselect.exception.ObjectNotFoundException;
 import com.softuni.petselect.model.dto.binding.PetAddBindingModel;
 
 import com.softuni.petselect.model.dto.service.PetServiceModel;
@@ -121,7 +122,10 @@ public class PetController {
     @GetMapping("/details/{id}")
     public String petsDetails(@PathVariable("id") Long id, @NotNull Model model){
 
-        model.addAttribute("pet", petService.getPetById(id));
+        var pet = petService.getPetById(id).orElseThrow(() -> new ObjectNotFoundException("Pet with ID " +
+                id + " is not found!"));
+
+        model.addAttribute("pet", pet);
 
         return "pets-details";
     }

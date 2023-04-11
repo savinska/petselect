@@ -34,6 +34,6 @@ public class PetTypeServiceImpl implements PetTypeService {
     @Override
     public PetTypeEntity findByPetTypeEnum(PetTypeEnum petType) {
         return petTypeRepository.findByPetType(petType)
-                .orElse(null);
+                .orElseThrow();
     }
 }

@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 @Service
-public class UserServiceIImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -29,7 +29,7 @@ public class UserServiceIImpl implements UserService {
     private final EmailService emailService;
 
 
-    public UserServiceIImpl(UserRepository userRepository, ModelMapper modelMapper, RoleService roleService, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, RoleService roleService, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, EmailService emailService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.roleService = roleService;
@@ -42,7 +42,7 @@ public class UserServiceIImpl implements UserService {
     public UserEntity findUserByEmail(String email) {
         return userRepository
                 .findByEmail(email)
-                .orElse(null);
+                .orElseThrow();
     }
 
 
@@ -76,7 +76,7 @@ public class UserServiceIImpl implements UserService {
         return userRepository
                 .findByEmailAndPassword(email, password)
                 .map(userEntity -> modelMapper.map(userEntity, UserServiceModel.class))
-                .orElse(null);
+                .orElseThrow();
     }
 
 

@@ -15,6 +15,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     public RoleEntity findById(Long id) {
-        return roleRepository.findById(id).orElse(null);
+        return roleRepository.findById(id).orElseThrow();
     }
 }

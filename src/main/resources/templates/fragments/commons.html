@@ -50,8 +50,8 @@
                     <th:block sec:authorize="isAuthenticated()">
                         <li class="nav-item"><a th:href="@{/admin}">Admin</a></li>
                         <li class="nav-item">
-                            <form th:method="POST" th:text="#{nav_logout}" th:action="@{/users/logout}">
-                                <input class="btn-link" type="submit" value="Logout">
+                            <form th:method="POST"  th:action="@{/users/logout}" th:text="#{nav_logout}">
+                                <input class="btn-link" type="submit" value="Logout" >
                             </form>
                         </li>
                     </th:block>
