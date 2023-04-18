@@ -1,13 +1,11 @@
 package com.softuni.petselect.web;
 
-import com.softuni.petselect.exception.ObjectNotFoundException;
+import com.softuni.petselect.service.exception.ObjectNotFoundException;
 import com.softuni.petselect.model.dto.binding.PetAddBindingModel;
 
 import com.softuni.petselect.model.dto.service.PetServiceModel;
-import com.softuni.petselect.model.dto.view.PetDetailsViewModel;
 import com.softuni.petselect.model.dto.view.PetViewModel;
 import com.softuni.petselect.model.entity.PetTypeEntity;
-import com.softuni.petselect.model.entity.PictureEntity;
 import com.softuni.petselect.model.entity.enums.PetTypeEnum;
 import com.softuni.petselect.service.PetService;
 import com.softuni.petselect.service.PetTypeService;
@@ -17,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Set;
 
 
 @Controller
@@ -55,8 +53,10 @@ public class PetController {
 
     @GetMapping("/cats")
     public String viewAllCats(Model model, @PageableDefault(
-                sort = "id",
-                size = 3
+                sort = "been_in_shelter_since",
+                direction = Sort.Direction.DESC,
+                page = 0,
+                size = 2
         ) Pageable pageable) {
 
         PetTypeEntity cat = petTypeService.findByPetTypeEnum(PetTypeEnum.CAT);
@@ -73,7 +73,7 @@ public class PetController {
     @GetMapping("/dogs")
     public String viewAllDogs(Model model, @PageableDefault(
             sort = "id",
-            size = 3
+            size = 2
     ) Pageable pageable) {
 
         PetTypeEntity dog = petTypeService.findByPetTypeEnum(PetTypeEnum.DOG);
@@ -123,7 +123,7 @@ public class PetController {
     public String petsDetails(@PathVariable("id") Long id, @NotNull Model model){
 
         var pet = petService.getPetById(id).orElseThrow(() -> new ObjectNotFoundException("Pet with ID " +
-                id + " is not found!"));
+                id + " is not found!", id));
 
         model.addAttribute("pet", pet);
 

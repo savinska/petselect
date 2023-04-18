@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface PetRepository extends JpaRepository<PetEntity, Long> {
 
-    List<PetEntity> findAllByPetType(PetTypeEntity petType, Pageable pageable);
+    List<PetEntity> findAllByPetType(PetTypeEntity petType);
 }

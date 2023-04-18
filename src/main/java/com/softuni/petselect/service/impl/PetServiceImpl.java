@@ -1,6 +1,5 @@
 package com.softuni.petselect.service.impl;
 
-import com.softuni.petselect.exception.ObjectNotFoundException;
 import com.softuni.petselect.model.dto.service.PetServiceModel;
 import com.softuni.petselect.model.dto.view.PetDetailsViewModel;
 import com.softuni.petselect.model.dto.view.PetViewModel;
@@ -40,29 +39,29 @@ public class PetServiceImpl implements PetService {
         this.cloudinaryService = cloudinaryService;
     }
 
+
     @Override
     public Page<PetViewModel> getAllPetsOfType(PetTypeEntity petType, Pageable pageable) {
 
-        List<PetViewModel> allPets = petRepository
-                .findAllByPetType(petType, pageable)
+        List<PetViewModel> petsList =  petRepository
+                .findAllByPetType(petType)
                 .stream()
                 .map(petEntity -> {
-                 PetViewModel petViewModel = modelMapper
+                    PetViewModel petViewModel = modelMapper
                             .map(petEntity, PetViewModel.class);
 
-                 petViewModel.setThumbnailUrl(petEntity
-                         .getPictures()
-                         .stream()
-                         .findFirst()
-                         .map(PictureEntity::getUrl)
-                         .orElse("N/A"));
+                    petViewModel.setThumbnailUrl(petEntity
+                            .getPictures()
+                            .stream()
+                            .findFirst()
+                            .map(PictureEntity::getUrl)
+                            .orElse("N/A"));
 
-                 return petViewModel;
+                    return petViewModel;
                 })
                 .collect(Collectors.toList());
 
-
-        return new PageImpl<>(allPets);
+        return new PageImpl<>(petsList);
     }
 
     @Override

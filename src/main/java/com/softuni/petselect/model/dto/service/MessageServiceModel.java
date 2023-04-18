@@ -1,27 +1,25 @@
-package com.softuni.petselect.model.entity;
+package com.softuni.petselect.model.dto.service;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.softuni.petselect.model.entity.UserEntity;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "messages")
-public class MessageEntity extends BaseEntity{
-
-    @Column(nullable = false)
+public class MessageServiceModel {
+    private Long id;
     private Instant sentOn;
-    @Column(nullable = false, columnDefinition = "TEXT")
     private String textContent;
-    @ManyToOne
     private UserEntity sender;
-    @ManyToOne
     private UserEntity recipient;
 
-    public MessageEntity() {
+    public MessageServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Instant getSentOn() {

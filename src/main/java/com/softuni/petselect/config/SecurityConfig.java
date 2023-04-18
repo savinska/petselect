@@ -24,8 +24,9 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/", "/users/login", "/users/signup", "/users/login-error", "/pets/all", "/pets/cats", "/pets/dogs", "/maintenance").permitAll()
-                .requestMatchers("/users/profile", "/users/inbox", "/pets/add", "/pets/details/{id}").authenticated()
+                .requestMatchers("/", "/home", "/about", "/users/login", "/users/forgot-password", "/users/signup", "/users/login-error", "/pets/all", "/pets/cats", "/pets/dogs", "/maintenance").permitAll()
+                .requestMatchers( "/users/profile", "/pets/add", "/pets/details/{id}").authenticated()
+                .requestMatchers("/messages/inbox", "/messages/send/{id}", "/messages/details/{id}").authenticated()
                 .requestMatchers("/admins").hasRole(RoleTypeEnum.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()

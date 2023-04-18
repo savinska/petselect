@@ -1,5 +1,7 @@
 package com.softuni.petselect.model.dto.view;
 
+import com.softuni.petselect.model.entity.UserEntity;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
@@ -50,7 +52,7 @@ public class PetDetailsViewModel {
 
     private Instant registeredOn;
 
-    private String author;
+    private UserEntity author;
 
     private Set<String> addedToFavouritesBy;
 
@@ -58,35 +60,6 @@ public class PetDetailsViewModel {
     public PetDetailsViewModel() {
     }
 
-    public PetDetailsViewModel(Long id, String petType, String gender, String breed, String furCoat, String temper, String location, String responsibleOrganization, String name, int ageYears, int ageMonths, Integer sizeInKg, LocalDate beenInShelterSince, Boolean isToiletTrained, Boolean isSpayed, Boolean isVaccinated, Boolean isChipped, Boolean isSpecialNeeds, Boolean isInDanger, Boolean isGetAlongWithDogs, Boolean isGetAlongWithCats, Boolean isGetAlongWithKids, String description, Set<String> pictureUrls, Instant registeredOn, String author, Set<String> addedToFavouritesBy) {
-        this.id = id;
-        this.petType = petType;
-        this.gender = gender;
-        this.breed = breed;
-        this.furCoat = furCoat;
-        this.temper = temper;
-        this.location = location;
-        this.responsibleOrganization = responsibleOrganization;
-        this.name = name;
-        this.ageYears = ageYears;
-        this.ageMonths = ageMonths;
-        this.sizeInKg = sizeInKg;
-        this.beenInShelterSince = beenInShelterSince;
-        this.isToiletTrained = isToiletTrained;
-        this.isSpayed = isSpayed;
-        this.isVaccinated = isVaccinated;
-        this.isChipped = isChipped;
-        this.isSpecialNeeds = isSpecialNeeds;
-        this.isInDanger = isInDanger;
-        this.isGetAlongWithDogs = isGetAlongWithDogs;
-        this.isGetAlongWithCats = isGetAlongWithCats;
-        this.isGetAlongWithKids = isGetAlongWithKids;
-        this.description = description;
-        this.pictureUrls = pictureUrls;
-        this.registeredOn = registeredOn;
-        this.author = author;
-        this.addedToFavouritesBy = addedToFavouritesBy;
-    }
 
     public Long getId() {
         return id;
@@ -288,11 +261,19 @@ public class PetDetailsViewModel {
         this.registeredOn = registeredOn;
     }
 
-    public String getAuthor() {
+    public Boolean getSpayed() {
+        return isSpayed;
+    }
+
+    public void setSpayed(Boolean spayed) {
+        isSpayed = spayed;
+    }
+
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(UserEntity author) {
         this.author = author;
     }
 

@@ -3,10 +3,7 @@ package com.softuni.petselect.model.entity;
 import com.softuni.petselect.model.entity.enums.CountryNameEnum;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -74,6 +71,19 @@ public class UserEntity extends BaseEntity{
     public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
     }
+
+    public void addRole(RoleEntity role) {
+        roles.add(role);
+    }
+
+    public boolean removeRole(RoleEntity role) {
+        Optional<RoleEntity> roleToRemove = roles
+                .stream()
+                .filter(r -> r.getRole() == role.getRole())
+                .findFirst();
+        return roles.remove(roleToRemove.orElse(null));
+    }
+
 
     @Override
     public String toString() {

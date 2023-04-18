@@ -25,12 +25,15 @@ public class EmailServiceImpl implements EmailService {
         this.messageSource = messageSource;
     }
 
+
+
     @Override
     public void sendRegistrationEmail(
             String userEmail,
             String userName,
             Locale preferredLocale
     ) {
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
@@ -38,8 +41,8 @@ public class EmailServiceImpl implements EmailService {
         try {
             mimeMessageHelper.setFrom("petselect23@gmail.com");
             mimeMessageHelper.setTo(userEmail);
-            mimeMessageHelper.setSubject(getEmailSubject(preferredLocale));
-            mimeMessageHelper.setText(generateMessageContent(preferredLocale, userName), true);
+            mimeMessageHelper.setSubject(getRegistrationEmailSubject(preferredLocale));
+            mimeMessageHelper.setText(generateRegistrationMessageContent(preferredLocale, userName), true);
 
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
 
@@ -49,19 +52,60 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
-    private String getEmailSubject(Locale locale) {
+    @Override
+    public void sendResetPasswordEmail(String userEmail,
+                                       String userName,
+                                       String link,
+                                       Locale preferredLocale) {
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+
+        try {
+            mimeMessageHelper.setFrom("petselect23@gmail.com");
+            mimeMessageHelper.setTo(userEmail);
+            mimeMessageHelper.setSubject(getResetPasswordEmailSubject(preferredLocale));
+            mimeMessageHelper.setText(generateResetPasswordMessageContent(preferredLocale, userName, link), true);
+
+            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getRegistrationEmailSubject(Locale locale) {
         return messageSource.getMessage(
                 "registration_subject",
                 new Object[0],
                 locale);
     }
 
-    private String generateMessageContent(Locale locale,
+    private String getResetPasswordEmailSubject(Locale locale) {
+        return messageSource.getMessage(
+                "password_reset_subject",
+                new Object[0],
+                locale);
+    }
+
+    private String generateRegistrationMessageContent(Locale locale,
                                           String userName) {
         Context ctx = new Context();
         ctx.setLocale(locale);
         ctx.setVariable("userName", userName);
+
         return templateEngine.process("email/registration", ctx);
+    }
+
+    private String generateResetPasswordMessageContent(Locale locale, String userName,
+                                                      String link) {
+        Context ctx = new Context();
+        ctx.setLocale(locale);
+        ctx.setVariable("userName", userName);
+        ctx.setVariable("link", link);
+
+        return templateEngine.process("email/reset-password", ctx);
     }
 
 }

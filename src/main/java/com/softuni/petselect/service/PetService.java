@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface PetService {
-    Page<PetViewModel> getAllPetsOfType(PetTypeEntity petType, Pageable pageable);
+   Page<PetViewModel> getAllPetsOfType(PetTypeEntity petType, Pageable pageable);
 
     PetEntity addNewPet(PetServiceModel petServiceModel, MultipartFile imageFile) throws IOException;
 

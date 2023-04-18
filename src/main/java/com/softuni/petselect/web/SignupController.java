@@ -74,19 +74,9 @@ public class SignupController {
 
         UserServiceModel userServiceModel = modelMapper.map(userSignUpBindingModel, UserServiceModel.class);
 
-        userService.signUpUser(userServiceModel, successfulAuth -> {
+        userService.signUpUser(userServiceModel, localeResolver.resolveLocale(request));
 
-            SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
-
-            SecurityContext context = strategy.createEmptyContext();
-            context.setAuthentication(successfulAuth);
-
-            strategy.setContext(context);
-
-            securityContextRepository.saveContext(context, request, response);
-        }, localeResolver.resolveLocale(request));
-
-        return "redirect:/successful-signup";
+        return "redirect:/login";
     }
 
 }

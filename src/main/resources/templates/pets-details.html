@@ -98,7 +98,7 @@
                                     <hr class="mt-0 mb-4">
                                     <div class="row pt-1">
                                         <div class="col-4 mb-4">
-                                            <button  type="button" class="btn btn-outline-secondary">Message caregiver</button>
+                                            <a class="btn-link"  th:href="@{/messages/send/{id} (id = *{author.id})}" >Message caregiver</a>
                                         </div>
                                         <div class="col-4 mb-3">
                                             <button type="button" class="btn btn-outline-secondary">Add to Favourites</button>
