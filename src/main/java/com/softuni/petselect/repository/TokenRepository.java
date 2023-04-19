@@ -6,11 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TokenRepository extends JpaRepository<ResetPasswordTokenEntity,Long> {
 
-    ResetPasswordTokenEntity getPasswordResetTokenEntityByToken(String token);
+    Optional<ResetPasswordTokenEntity> findByToken(String token);
 
     List<ResetPasswordTokenEntity> getAllByCreatedOnBeforeOrExpiredIsTrue(Instant timeInterval);
 }

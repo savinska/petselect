@@ -5,10 +5,9 @@ import com.softuni.petselect.model.dto.binding.ForgotPasswordBindingModel;
 import com.softuni.petselect.model.dto.binding.NewEmailBindingModel;
 import com.softuni.petselect.model.dto.binding.ResetPasswordBindingModel;
 import com.softuni.petselect.model.dto.service.NewPasswordServiceModel;
-import com.softuni.petselect.model.entity.ResetPasswordTokenEntity;
 import com.softuni.petselect.model.entity.enums.EditRolesEnum;
 import com.softuni.petselect.model.entity.enums.RoleTypeEnum;
-import com.softuni.petselect.repository.TokenRepository;
+import com.softuni.petselect.service.TokenService;
 import com.softuni.petselect.service.exception.ObjectNotFoundException;
 import com.softuni.petselect.model.dto.service.UserServiceModel;
 import com.softuni.petselect.model.entity.UserEntity;
@@ -21,11 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-
-import javax.naming.AuthenticationException;
-import java.security.SecureRandom;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 
 
@@ -37,16 +31,18 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
-    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
 
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, RoleService roleService, PasswordEncoder passwordEncoder, EmailService emailService, TokenRepository tokenRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
+                           RoleService roleService, PasswordEncoder passwordEncoder,
+                           EmailService emailService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
-        this.tokenRepository = tokenRepository;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -55,7 +51,6 @@ public class UserServiceImpl implements UserService {
                 .findByEmail(email)
                 .orElse(null);
     }
-
 
 
     @Override
@@ -90,68 +85,23 @@ public class UserServiceImpl implements UserService {
             return;
         }
 
-        String passwordResetToken = getPasswordResetToken(user);
-        emailService.sendResetPasswordEmail(user.getEmail(), user.getFirstName(), "http://localhost:8080/users/password-reset/" + passwordResetToken, preferredLocale);
+        String passwordResetToken = tokenService.getPasswordResetToken(user);
+        emailService.sendResetPasswordEmail(user.getEmail(), user.getFirstName(), "http://localhost:8080/users/reset-password/" + passwordResetToken, preferredLocale);
     }
 
-    private String getPasswordResetToken(UserEntity user) {
-        ResetPasswordTokenEntity passwordResetToken = new ResetPasswordTokenEntity();
 
-        Random r = new SecureRandom();
-        byte[] bytes = new byte[33];
-        r.nextBytes(bytes);
-
-        String token = Base64.getUrlEncoder().encodeToString(bytes);
-
-        passwordResetToken.setToken(token);
-        passwordResetToken.setCreatedOn(Instant.now());
-        passwordResetToken.setUser(user);
-
-        this.tokenRepository.save(passwordResetToken);
-
-        return token;
-    }
-
-    @Override
-    public boolean isValidPasswordResetToken(String token) {
-        ResetPasswordTokenEntity passwordResetToken = tokenRepository.getPasswordResetTokenEntityByToken(token);
-
-        if (passwordResetToken.isExpired()) {
-            return false;
-        }
-
-        passwordResetToken.setExpired(true);
-        ResetPasswordTokenEntity expiredToken = tokenRepository.save(passwordResetToken);
-
-        long elapsedTimeSeconds = Duration.between(Instant.now(), expiredToken.getCreatedOn()).abs().toSeconds();
-
-        return elapsedTimeSeconds <= 1800;
-    }
 
     @Override
     public void changePassword(ResetPasswordBindingModel resetPasswordBindingModel) {
-        ResetPasswordTokenEntity tokenEntity = tokenRepository.getPasswordResetTokenEntityByToken(resetPasswordBindingModel.getRecoveryToken());
-        UserEntity user = tokenEntity.getUser();
+        UserEntity user = tokenService
+                .getPasswordResetTokenEntityByToken(resetPasswordBindingModel.getRecoveryToken())
+                .getUser();
 
         user.setPassword(passwordEncoder.encode(resetPasswordBindingModel.getPassword()));
+
         userRepository.save(user);
     }
 
-    @Override
-    public void changePassword(NewPasswordServiceModel newPasswordServiceModel) throws AuthenticationException {
-        UserEntity currentUser = getCurrentUser();
-        if (currentUser == null) {
-            throw new AuthenticationException("User does not exist!");
-        }
-
-
-        if (!passwordEncoder.matches(newPasswordServiceModel.getCurrentPassword(), currentUser.getPassword())) {
-            throw new AuthenticationException("Invalid password");
-        }
-
-        currentUser.setPassword(passwordEncoder.encode(newPasswordServiceModel.getNewPassword()));
-        userRepository.save(currentUser);
-    }
 
 
     @Override
@@ -164,16 +114,16 @@ public class UserServiceImpl implements UserService {
                 .orElse(null);
     }
 @Override
-    public void editEmail(NewEmailBindingModel newEmailBindingModel) throws AuthenticationException {
+    public void editEmail(NewEmailBindingModel newEmailBindingModel)  {
 
         UserEntity currentUser = getCurrentUser();
 
         if (currentUser == null) {
-            throw new AuthenticationException("User does not exist!");
+            throw new RuntimeException("User does not exist!");
         }
 
         if (!passwordEncoder.matches(newEmailBindingModel.getCurrentPassword(), currentUser.getPassword())) {
-            throw new AuthenticationException("Invalid password!");
+            throw new RuntimeException("Invalid password!");
         }
 
         if(userRepository.findByEmail(newEmailBindingModel.getNewEmail()).isPresent()){

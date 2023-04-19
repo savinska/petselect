@@ -20,7 +20,7 @@
                         <div class="card-body">
                           <div class="input-group no-border">
                             <input th:field="*{firstName}" type="text" class="form-control" placeholder="First Name..."
-                              required minlength="1" maxlength="20"
+                              required minlength="2" maxlength="20"
                               aria-describedby="firstNameHelpInline">
                               <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
                                      class="errors text-white" id="firstNameError"
@@ -28,7 +28,7 @@
                           </div>
                           <div class="input-group no-border">
                             <input th:field="*{lastName}" type="text" class="form-control" placeholder="Last Name..."
-                                   required minlength="1" maxlength="20"
+                                   required minlength="2" maxlength="20"
                                    aria-describedby="lastNameHelpInline">
                               <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
                                      class="errors text-white" id="lastNameError"
@@ -48,21 +48,21 @@
                           </div>
                           <div class="input-group no-border">
                             <input th:field="*{password}" type="password" class="form-control" placeholder="Password..."
-                                   required minlength="1" maxlength="20"
+                                   required minlength="3" maxlength="20"
                                    aria-describedby="passwordHelpInline">
                               <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                                      class="errors text-white" id="passwordError">
-                                  Password length must be between 1 and 20 characters
+                                  Password length must be between 3 and 20 characters
                               </small>
                           </div>
                             <div class="input-group no-border">
                                 <input th:field="*{confirmPassword}" type="password" class="form-control" placeholder="Confirm password..."
-                                       required minlength="1" maxlength="20"
+                                       required minlength="3" maxlength="20"
                                        aria-describedby="confirmPasswordHelpInline">
                                 <small th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
                                        class="errors text-white" id="confirmPasswordError"
                                        >
-                                    Password length must be between 1 and 20 characters
+                                    Password length must be between 3 and 20 characters
                                 </small>
                                 <small th:if="*{password != confirmPassword}"
                                        class="errors text-white" id="noMatchPasswordError"

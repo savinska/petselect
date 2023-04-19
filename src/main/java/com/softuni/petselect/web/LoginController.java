@@ -34,6 +34,6 @@ public class LoginController {
     @PostMapping("/logout")
     public String logout(){
 
-        return "redirect:/";
+        return "redirect:/index";
     }
 }

@@ -6,12 +6,14 @@ import com.softuni.petselect.model.dto.binding.ResetPasswordBindingModel;
 import com.softuni.petselect.model.dto.service.NewPasswordServiceModel;
 import com.softuni.petselect.model.dto.view.UserViewModel;
 import com.softuni.petselect.model.entity.UserEntity;
+import com.softuni.petselect.service.TokenService;
 import com.softuni.petselect.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.naming.AuthenticationException;
 import java.security.Principal;
@@ -22,10 +24,11 @@ import java.util.Locale;
 public class UserController {
 
     private final UserService userService;
+    private final TokenService tokenService;
 
-
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping("/profile")
@@ -62,17 +65,37 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @PostMapping("/reset-password")
-    public String resetPassword(@Valid ResetPasswordBindingModel resetPasswordBindingModel, BindingResult bindingResult){
+    @GetMapping("/reset-password")
+    public String resetPassword() {
 
-        if (bindingResult.hasErrors()) {
-            throw new RuntimeException(bindingResult.getAllErrors().toString());
-        }
 
-        boolean isValidToken = userService.isValidPasswordResetToken(resetPasswordBindingModel.getRecoveryToken());
+
+        return "reset-password";
+    }
+
+    @ModelAttribute
+    public ResetPasswordBindingModel resetPasswordBindingMode() {
+
+        return new ResetPasswordBindingModel();
+    }
+
+
+    @PostMapping("/reset-password/{token}")
+    public String resetPassword(@Valid ResetPasswordBindingModel resetPasswordBindingModel,
+                                BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable String token){
+
+        boolean isValidToken = tokenService.isValidPasswordResetToken(token);
 
         if (!isValidToken) {
             throw new RuntimeException("Token is expired or has already been used");
+        }
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("isValidToken", true);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.resetPasswordBindingModel", bindingResult);
+
+            return "redirect:reset-password";
+
         }
 
         this.userService.changePassword(resetPasswordBindingModel);
@@ -80,17 +103,17 @@ public class UserController {
         return "redirect:/login";
     }
 
-
-    @PostMapping("/change-password")
-    public String changePassword(NewPasswordServiceModel newPasswordServiceModel) throws AuthenticationException {
-
-            userService.changePassword(newPasswordServiceModel);
-
-            return "redirect:/profile";
-    }
+//
+//    @PostMapping("/change-password")
+//    public String changePassword(NewPasswordServiceModel newPasswordServiceModel) throws RuntimeException {
+//
+//            userService.changePassword(newPasswordServiceModel);
+//
+//            return "redirect:/profile";
+//    }
 
     @PostMapping(path = "/edit-email")
-    public String editEmail(NewEmailBindingModel newEmailBindingModel) throws AuthenticationException {
+    public String editEmail(NewEmailBindingModel newEmailBindingModel) {
 
             userService.editEmail(newEmailBindingModel);
 
